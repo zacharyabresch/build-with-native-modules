@@ -6,9 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "./node_modules/.bin/rimraf build",
+    "build": "npm run clean && gulp",
     "start": "npm run clean && gulp && ./node_modules/.bin/electron ./build/dist/el/main.js",
     "electron:rebuild": "./node_modules/.bin/electron-rebuild",
-    "build:osx": "gulp build:osx",
+    "package:osx": "gulp package:osx",
     "cinstall": "rm -Rf ./node_modules && npm cache clean && npm i && npm run electron:rebuild"
   },
   "postinstall": "install-app-deps",

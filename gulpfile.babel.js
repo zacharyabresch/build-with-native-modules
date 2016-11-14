@@ -45,7 +45,7 @@ const osxBuildOptions = {
   version: pack.devDependencies.electron,
 };
 
-gulp.task('build:osx',
+gulp.task('package:osx',
   ['move:package', 'electron:babel', 'ui:webpack', 'move:html'],
 (done) => {
   packager(osxBuildOptions, (err, appPath) => {
@@ -55,4 +55,4 @@ gulp.task('build:osx',
   });
 });
 
-gulp.task('default', ['electron:babel', 'ui:webpack', 'move:html']);
+gulp.task('default', ['move:package', 'electron:babel', 'ui:webpack', 'move:html']);
