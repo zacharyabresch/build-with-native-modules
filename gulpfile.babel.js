@@ -1,6 +1,7 @@
 import gulp from 'gulp';
 import babel from 'gulp-babel';
 import gutil from 'gulp-util';
+import shell from 'gulp-shell';
 import webpack from 'webpack';
 import packager from 'electron-packager';
 
@@ -22,6 +23,16 @@ gulp.task('move:package', () => {
   gulp.src('package.json', { base: './' })
     .pipe(gulp.dest('build/dist'));
 });
+
+gulp.task('move:node_modules', () => {
+  gulp.src('node_modules/**/*', { base: 'src' })
+    .pipe(gulp.dest('build/dist'));
+});
+
+gulp.task('run:npm-install', shell.task([
+  'npm --prefix ./build/dist install ./build/dist --production',
+  './node_modules/.bin/electron-rebuild -m ./build/dist/node_modules',
+]));
 
 gulp.task('ui:webpack', (done) => {
   const myConfig = Object.create(webpackConfig);
@@ -46,7 +57,7 @@ const osxBuildOptions = {
 };
 
 gulp.task('package:osx',
-  ['move:package', 'electron:babel', 'ui:webpack', 'move:html'],
+  ['move:package', 'electron:babel', 'ui:webpack', 'move:html', 'run:npm-install'],
 (done) => {
   packager(osxBuildOptions, (err, appPath) => {
     if (err) throw new gutil.PluginError('electron-packager', err);

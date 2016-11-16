@@ -2,6 +2,8 @@ import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'path';
 import url from 'url';
 import bunyan from 'bunyan';
+import ffi from 'ffi';
+import axios from 'axios';
 
 const log = bunyan.createLogger({ name: 'build-with-native-modules' });
 
